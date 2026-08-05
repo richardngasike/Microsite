@@ -69,7 +69,7 @@ export default function HomePage() {
           </Link>
 
           <Link href="/gc8" className={styles.tile}>
-            <img src="/images/3D9A5657.jpg" alt="" className={styles.tileImg} />
+            <img src="/images/GC8.jpg" alt="" className={styles.tileImg} />
             <div className={styles.tileScrim} />
             <div className={styles.tileBody}>
               <span className={styles.tileEyebrow}>Global Fund</span>
