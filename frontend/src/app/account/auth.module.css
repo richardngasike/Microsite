@@ -1,0 +1,201 @@
+/* ==========================================================================
+   Auth pages (Sign in + Create account) — auth.module.css
+   ========================================================================== */
+
+.page {
+  min-height: 76vh;
+  display: grid;
+  place-items: center;
+  padding: 60px 24px;
+  background: var(--grey-100);
+}
+
+.card {
+  width: 100%;
+  max-width: 460px;
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 44px 40px 40px;
+  box-shadow: var(--shadow-md);
+}
+
+/* UNAIDS logo at top of card */
+.cardBrand {
+  margin-bottom: 28px;
+}
+.brandLogo {
+  height: 36px;
+  width: auto;
+}
+
+.title {
+  font-size: 1.9rem;
+  font-weight: 900;
+  color: var(--unaids-black);
+  margin-bottom: 6px;
+}
+.subtitle {
+  color: var(--unaids-grey);
+  font-size: 0.97rem;
+  margin-bottom: 28px;
+  line-height: 1.5;
+}
+
+/* ── Fields ─────────────────────────────────────────────────────────────── */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 18px;
+}
+.field span {
+  font-weight: 700;
+  font-size: 0.88rem;
+  color: var(--unaids-black);
+}
+.req {
+  color: var(--unaids-red);
+  font-style: normal;
+  margin-left: 1px;
+}
+
+.field input {
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  font-family: inherit;
+  font-size: 1rem;
+  color: var(--color-text);
+  background: var(--white);
+  transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+  width: 100%;
+}
+.field input::placeholder { color: var(--grey-300); }
+.field input:focus {
+  outline: none;
+  border-color: var(--unaids-red);
+  box-shadow: 0 0 0 3px rgba(227,24,55,0.13);
+}
+
+/* Field with error state */
+.fieldError input {
+  border-color: var(--unaids-red);
+  background: rgba(227,24,55,0.03);
+}
+.fieldMsg {
+  font-size: 0.82rem;
+  color: var(--unaids-red);
+  font-weight: 600;
+}
+
+/* ── Password field with show/hide toggle ───────────────────────────────── */
+.passwordWrap {
+  position: relative;
+}
+.passwordWrap input {
+  padding-right: 44px;
+}
+.eyeBtn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--unaids-grey);
+  cursor: pointer;
+  padding: 4px;
+  display: grid;
+  place-items: center;
+  transition: color var(--dur) var(--ease);
+}
+.eyeBtn:hover { color: var(--unaids-red); }
+
+/* ── Password strength rules ────────────────────────────────────────────── */
+.rules {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 8px;
+  padding: 12px 14px;
+  background: var(--grey-100);
+  border-radius: var(--radius-sm);
+  list-style: none;
+}
+.rulePassed,
+.ruleFailed {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  transition: color var(--dur) var(--ease);
+}
+.rulePassed { color: #16a34a; }  /* green — passes */
+.ruleFailed { color: var(--unaids-grey); }
+
+/* ── Errors ─────────────────────────────────────────────────────────────── */
+.serverError {
+  background: rgba(227,24,55,0.07);
+  border: 1px solid rgba(227,24,55,0.25);
+  border-left: 3px solid var(--unaids-red);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  font-size: 0.93rem;
+  color: var(--unaids-red);
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+/* ── Submit button ──────────────────────────────────────────────────────── */
+.submit {
+  width: 100%;
+  background: var(--unaids-red);
+  color: var(--white);
+  font-weight: 700;
+  font-size: 1.05rem;
+  border: none;
+  border-radius: var(--radius-pill);
+  padding: 14px;
+  margin-top: 6px;
+  display: grid;
+  place-items: center;
+  transition: background var(--dur) var(--ease), transform var(--dur) var(--ease);
+  cursor: pointer;
+}
+.submit:hover:not(:disabled) {
+  background: var(--unaids-red-dark);
+  transform: translateY(-1px);
+}
+.submit:disabled { opacity: 0.65; cursor: not-allowed; }
+
+/* Loading spinner inside submit */
+.spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2.5px solid rgba(255,255,255,0.35);
+  border-top-color: var(--white);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Switch link ────────────────────────────────────────────────────────── */
+.switch {
+  text-align: center;
+  margin-top: 22px;
+  color: var(--unaids-grey);
+  font-size: 0.93rem;
+}
+.switch a {
+  color: var(--unaids-red);
+  font-weight: 700;
+}
+.switch a:hover { text-decoration: underline; }
+
+/* ── Responsive ─────────────────────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .card { padding: 32px 22px 28px; }
+  .title { font-size: 1.65rem; }
+}

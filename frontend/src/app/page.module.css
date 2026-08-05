@@ -1,0 +1,449 @@
+/* ==========================================================================
+   Homepage — page.module.css
+   ========================================================================== */
+
+/* ── FEATURE MOSAIC ─────────────────────────────────────────────────────── */
+.mosaic {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 640px;
+  overflow: hidden;
+}
+
+.mosaicGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+/* Every tile: relative + overflow so the image fills and text sits on top */
+.tile {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.tileImg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 600ms var(--ease);
+}
+.tile:hover .tileImg {
+  transform: scale(1.06);
+}
+
+/* Dark gradient scrim so text is always readable */
+.tileScrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.78) 0%,
+    rgba(0, 0, 0, 0.28) 55%,
+    rgba(0, 0, 0, 0.04) 100%
+  );
+  transition: background var(--dur) var(--ease);
+}
+.tile:hover .tileScrim {
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.88) 0%,
+    rgba(0, 0, 0, 0.38) 55%,
+    rgba(0, 0, 0, 0.06) 100%
+  );
+}
+
+.tileBody {
+  position: relative;
+  z-index: 1;
+  padding: 24px 28px;
+  width: 100%;
+}
+
+.tileEyebrow {
+  display: block;
+  color: var(--unaids-red);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+/* Lead tile — large left card */
+.tileLead .tileBody {
+  padding: 36px 40px;
+}
+.tileTitle {
+  color: var(--white);
+  font-size: clamp(1.5rem, 2.6vw, 2.2rem);
+  font-weight: 900;
+  line-height: 1.15;
+  max-width: 16ch;
+}
+
+/* Smaller right-grid tiles */
+.tileSub {
+  color: var(--white);
+  font-size: clamp(1rem, 1.5vw, 1.35rem);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+/* Red accent line on hover */
+.tileBody::before {
+  content: "";
+  display: block;
+  width: 32px;
+  height: 2px;
+  background: var(--unaids-red);
+  margin-bottom: 12px;
+  transform: scaleX(0.6);
+  transform-origin: left;
+  transition: transform var(--dur) var(--ease), width var(--dur) var(--ease);
+}
+.tile:hover .tileBody::before {
+  transform: scaleX(1);
+  width: 48px;
+}
+
+/* Mosaic: fallback backgrounds so tiles look good before images load */
+.tile:nth-child(1) { background: #1a1a1a; }
+.mosaicGrid .tile:nth-child(1) { background: var(--unaids-red); }
+.mosaicGrid .tile:nth-child(2) { background: #111; }
+.mosaicGrid .tile:nth-child(3) { background: #222; }
+.mosaicGrid .tile:nth-child(4) { background: #333; }
+
+/* ── FIVE DOMAINS ────────────────────────────────────────────────────────── */
+.domainsSection {
+  padding: 80px 0;
+  background: var(--white);
+}
+
+.domainsMeta {
+  margin-bottom: 44px;
+}
+
+.sectionEyebrow {
+  display: inline-block;
+  color: var(--unaids-red);
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.sectionTitle {
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  font-weight: 900;
+  color: var(--unaids-black);
+  line-height: 1.12;
+  max-width: 24ch;
+}
+
+.domainsRow {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1px;
+  background: var(--grey-200);
+  border: 1px solid var(--grey-200);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.domainCard {
+  background: var(--white);
+  padding: 28px 22px 32px;
+  display: flex;
+  flex-direction: column;
+  transition: background var(--dur) var(--ease);
+}
+.domainCard:hover {
+  background: var(--grey-100);
+}
+
+.domainNo {
+  font-size: 2.6rem;
+  font-weight: 900;
+  color: var(--unaids-red);
+  line-height: 1;
+  margin-bottom: 16px;
+}
+
+.domainTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--unaids-black);
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+
+.domainRule {
+  width: 28px;
+  height: 2px;
+  background: var(--unaids-red);
+  margin-bottom: 12px;
+  flex-shrink: 0;
+}
+
+.domainSummary {
+  font-size: 0.88rem;
+  color: var(--unaids-grey);
+  line-height: 1.55;
+  flex: 1;
+}
+
+/* ── FEATURED RESOURCES ──────────────────────────────────────────────────── */
+.resourcesSection {
+  padding: 80px 0;
+  background: var(--grey-100);
+}
+
+.sectionHead {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+}
+
+.viewAll {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--unaids-red);
+  font-weight: 700;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  transition: gap var(--dur) var(--ease);
+}
+.viewAll:hover { gap: 12px; }
+
+.resourceGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 26px;
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 64px 0;
+  color: var(--unaids-grey);
+}
+.emptyIcon { font-size: 2.4rem; }
+.emptyState p { font-size: 1.05rem; }
+
+/* ── COUNTRY PROFILES ────────────────────────────────────────────────────── */
+.countrySection {
+  padding: 80px 0;
+  background: var(--unaids-black);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle radial brand accent */
+.countrySection::before {
+  content: "";
+  position: absolute;
+  top: -80px;
+  right: -80px;
+  width: 480px;
+  height: 480px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(227,24,55,0.22) 0%, transparent 70%);
+  pointer-events: none;
+}
+.countrySection::after {
+  content: "";
+  position: absolute;
+  bottom: -100px;
+  left: 10%;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(227,24,55,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.countryInner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.sectionEyebrowLight {
+  display: inline-block;
+  color: var(--unaids-red);
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.sectionTitleLight {
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  font-weight: 900;
+  color: var(--white);
+  line-height: 1.12;
+  margin-bottom: 16px;
+}
+
+.countryLead {
+  color: var(--grey-300);
+  font-size: 1.05rem;
+  line-height: 1.65;
+  max-width: 44ch;
+}
+
+.countryWidget {
+  display: flex;
+  align-items: center;
+}
+
+/* ── NEWS ────────────────────────────────────────────────────────────────── */
+.newsSection {
+  padding: 80px 0;
+  background: var(--white);
+}
+
+.newsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 28px;
+}
+
+/* ── CONTACT STRIP ───────────────────────────────────────────────────────── */
+.contactStrip {
+  background: var(--unaids-red);
+  padding: 64px 0;
+}
+
+.contactInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.contactTitle {
+  color: var(--white);
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  font-weight: 900;
+  margin-bottom: 8px;
+}
+
+.contactBody {
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 1.05rem;
+  max-width: 50ch;
+  line-height: 1.55;
+}
+
+.contactBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--white);
+  color: var(--unaids-red);
+  font-weight: 700;
+  font-size: 1.05rem;
+  padding: 16px 36px;
+  border-radius: var(--radius-pill);
+  white-space: nowrap;
+  transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+  flex-shrink: 0;
+}
+.contactBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+}
+
+/* ── RESPONSIVE ──────────────────────────────────────────────────────────── */
+
+/* Mosaic: stack at tablet */
+@media (max-width: 900px) {
+  .mosaic {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+  .tileLead {
+    height: 340px;
+  }
+  .mosaicGrid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 220px 220px;
+  }
+}
+
+/* Mosaic: full single column on mobile */
+@media (max-width: 560px) {
+  .tileLead { height: 280px; }
+  .mosaicGrid {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(4, 180px);
+  }
+  .tileSub { font-size: 1rem; }
+}
+
+/* Domains: 2-col then 1-col */
+@media (max-width: 1100px) {
+  .domainsRow {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (max-width: 720px) {
+  .domainsRow {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 480px) {
+  .domainsRow {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Domains section padding */
+@media (max-width: 640px) {
+  .domainsSection,
+  .resourcesSection,
+  .newsSection,
+  .countrySection { padding: 56px 0; }
+}
+
+/* Country section: stack */
+@media (max-width: 860px) {
+  .countryInner {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .countryWidget { width: 100%; }
+}
+
+/* Contact: stack */
+@media (max-width: 640px) {
+  .contactStrip { padding: 48px 0; }
+  .contactInner { flex-direction: column; align-items: flex-start; }
+  .contactBtn { width: 100%; justify-content: center; }
+}
+
+/* Resources grid: single col on small */
+@media (max-width: 480px) {
+  .resourceGrid { grid-template-columns: 1fr; }
+  .newsGrid { grid-template-columns: 1fr; }
+}

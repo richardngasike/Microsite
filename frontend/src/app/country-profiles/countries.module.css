@@ -1,0 +1,75 @@
+.wrap { padding-top: 48px; padding-bottom: 40px; }
+.state { color: var(--unaids-grey); font-size: 1.05rem; padding: 40px 0; }
+
+.searchBox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  padding: 12px 20px;
+  color: var(--unaids-grey);
+  max-width: 420px;
+  margin-bottom: 44px;
+}
+.searchBox input {
+  border: none;
+  outline: none;
+  font-family: inherit;
+  font-size: 1rem;
+  flex: 1;
+  background: transparent;
+  color: var(--color-text);
+}
+
+.region { margin-bottom: 48px; }
+.regionTitle {
+  font-size: 1.5rem;
+  padding-bottom: 14px;
+  margin-bottom: 22px;
+  border-bottom: 2px solid var(--unaids-red);
+  display: inline-block;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 14px;
+}
+.country {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+  font-weight: 500;
+  font-size: 1.05rem;
+  color: var(--color-text);
+  transition: all var(--dur) var(--ease);
+}
+.country span { flex: 1; }
+.country svg { color: var(--unaids-grey); transition: transform var(--dur) var(--ease); }
+.country:hover {
+  border-color: var(--unaids-red);
+  box-shadow: var(--shadow-sm);
+  transform: translateY(-2px);
+}
+.country:hover svg { color: var(--unaids-red); transform: translateX(3px); }
+.flag { width: 28px; height: 20px; object-fit: cover; border-radius: 3px; }
+
+/* Intro paragraph added with country profile text */
+.intro {
+  max-width: 900px;
+  margin-bottom: 40px;
+}
+.intro p {
+  font-size: 1.06rem;
+  line-height: 1.78;
+  color: var(--color-text);
+}
+.intro strong {
+  color: var(--unaids-black);
+  font-weight: 700;
+}

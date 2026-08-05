@@ -1,0 +1,279 @@
+/* ==========================================================================
+   Advisory Committee — advisory-committee.module.css
+   ========================================================================== */
+
+/* ── Terms of Reference ─────────────────────────────────────────────────── */
+.tor {
+  padding: 64px 0 56px;
+  background: var(--white);
+}
+
+/* Tab switcher (visual only — matches original page's section dividers) */
+.torTabs {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 36px;
+  padding-bottom: 18px;
+  border-bottom: 2px solid var(--grey-200);
+}
+.torTab {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--unaids-red);
+  padding-bottom: 18px;
+  margin-bottom: -20px;
+  border-bottom: 2px solid var(--unaids-red);
+}
+.torTabDivider {
+  width: 1px;
+  height: 20px;
+  background: var(--grey-300);
+}
+.torTabMuted {
+  font-size: 1.05rem;
+  color: var(--unaids-grey);
+}
+
+/* ToR body paragraphs */
+.torBody {
+  max-width: 860px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-bottom: 48px;
+}
+.torBody p {
+  font-size: 1.06rem;
+  line-height: 1.72;
+  color: var(--color-text);
+}
+
+/* ToR subsections */
+.torBlock {
+  max-width: 860px;
+  margin-bottom: 44px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.torBlock p {
+  font-size: 1.04rem;
+  line-height: 1.7;
+  color: var(--color-text);
+}
+
+.torHeading {
+  font-size: 1.45rem;
+  font-weight: 900;
+  color: var(--unaids-black);
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--unaids-red);
+  display: inline-block;
+  margin-bottom: 4px;
+}
+
+.torLead {
+  font-size: 1.04rem;
+  line-height: 1.7;
+}
+
+.torList {
+  padding-left: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  list-style: none;
+}
+.torList li {
+  position: relative;
+  padding-left: 18px;
+  font-size: 1.02rem;
+  line-height: 1.65;
+  color: var(--color-text);
+}
+.torList li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--unaids-red);
+  flex-shrink: 0;
+}
+
+.torNote {
+  font-style: italic;
+  color: var(--unaids-grey);
+  font-size: 0.97rem;
+}
+
+.torFootnote {
+  max-width: 860px;
+  margin-top: 8px;
+  font-size: 0.97rem;
+  line-height: 1.65;
+  color: var(--unaids-grey);
+  border-top: 1px solid var(--grey-200);
+  padding-top: 24px;
+}
+
+/* ── Members ─────────────────────────────────────────────────────────────── */
+.membersSection {
+  padding: 72px 0 80px;
+  background: var(--grey-100);
+}
+
+.membersHeading {
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  font-weight: 900;
+  color: var(--unaids-black);
+  margin-bottom: 52px;
+}
+
+.state {
+  color: var(--unaids-grey);
+  font-size: 1.05rem;
+  padding: 40px 0;
+}
+
+/* Group */
+.group {
+  margin-bottom: 60px;
+}
+.group:last-child {
+  margin-bottom: 0;
+}
+
+.groupTitle {
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: var(--unaids-black);
+  padding-bottom: 12px;
+  margin-bottom: 28px;
+  border-bottom: 2px solid var(--unaids-red);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.groupTitle::before {
+  content: "";
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--unaids-red);
+  flex-shrink: 0;
+}
+
+/* Cards grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 22px;
+}
+
+/* Individual card */
+.card {
+  background: var(--white);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  display: flex;
+  gap: 18px;
+  padding: 24px;
+  transition: box-shadow var(--dur) var(--ease), transform var(--dur) var(--ease);
+}
+.card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+/* Avatar */
+.avatar {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: var(--grey-200);
+  overflow: hidden;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+}
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.initials {
+  font-size: 1.35rem;
+  font-weight: 900;
+  color: var(--unaids-grey);
+}
+
+/* Card body */
+.cardBody {
+  flex: 1;
+  min-width: 0;
+}
+
+.name {
+  font-size: 1.08rem;
+  font-weight: 900;
+  color: var(--unaids-black);
+  margin-bottom: 5px;
+  line-height: 1.25;
+}
+
+.role {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--unaids-red);
+  line-height: 1.4;
+  margin-bottom: 12px;
+}
+
+/* Bio — collapsed by default, expands on toggle */
+.bio {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 380ms var(--ease);
+}
+.bio.bioExpanded {
+  max-height: 1200px;
+}
+.bio p {
+  font-size: 0.93rem;
+  line-height: 1.65;
+  color: var(--unaids-grey);
+  margin-bottom: 10px;
+}
+.bio p:last-child { margin-bottom: 0; }
+
+.toggle {
+  background: none;
+  border: none;
+  color: var(--unaids-red);
+  font-size: 0.87rem;
+  font-weight: 700;
+  padding: 8px 0 0;
+  cursor: pointer;
+  transition: opacity var(--dur) var(--ease);
+}
+.toggle:hover { opacity: 0.75; }
+
+/* ── Responsive ──────────────────────────────────────────────────────────── */
+@media (max-width: 760px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .tor { padding: 48px 0 40px; }
+  .membersSection { padding: 52px 0 60px; }
+  .torHeading { font-size: 1.2rem; }
+  .card { flex-direction: column; gap: 14px; }
+  .avatar { width: 58px; height: 58px; }
+}

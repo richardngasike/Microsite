@@ -1,0 +1,25 @@
+.wrap {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 80px 24px;
+}
+.code {
+  font-size: clamp(5rem, 16vw, 10rem);
+  font-weight: 900;
+  color: var(--unaids-red);
+  line-height: 1;
+}
+.title { font-size: 2rem; margin: 12px 0 10px; }
+.text { color: var(--unaids-grey); font-size: 1.1rem; margin-bottom: 28px; }
+.btn {
+  background: var(--unaids-red);
+  color: var(--white);
+  font-weight: 700;
+  padding: 14px 32px;
+  border-radius: var(--radius-pill);
+}
+.btn:hover { background: var(--unaids-red-dark); }

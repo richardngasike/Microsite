@@ -1,0 +1,36 @@
+.hero {
+  background: var(--unaids-black);
+  color: var(--white);
+  padding: 72px 0 64px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: "";
+  position: absolute;
+  top: -40%;
+  right: -10%;
+  width: 420px;
+  height: 420px;
+  background: radial-gradient(circle, rgba(227,24,55,0.35), transparent 70%);
+  pointer-events: none;
+}
+.eyebrow {
+  display: inline-block;
+  color: var(--white);
+  background: var(--unaids-red);
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 6px 13px;
+  border-radius: var(--radius-pill);
+  margin-bottom: 20px;
+}
+.title { font-size: clamp(2.2rem, 5vw, 3.6rem); max-width: 20ch; }
+.lead {
+  margin-top: 18px;
+  color: var(--grey-300);
+  font-size: 1.2rem;
+  max-width: 60ch;
+}

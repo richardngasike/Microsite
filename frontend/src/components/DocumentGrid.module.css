@@ -1,0 +1,59 @@
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 36px;
+  flex-wrap: wrap;
+}
+.searchBox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  padding: 11px 18px;
+  color: var(--unaids-grey);
+  min-width: 280px;
+  flex: 1;
+  max-width: 380px;
+}
+.searchBox input {
+  border: none;
+  outline: none;
+  font-family: inherit;
+  font-size: 1rem;
+  flex: 1;
+  background: transparent;
+  color: var(--color-text);
+}
+.chips { display: flex; gap: 10px; flex-wrap: wrap; }
+.chip {
+  border: 1px solid var(--color-border);
+  background: var(--white);
+  border-radius: var(--radius-pill);
+  padding: 9px 18px;
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--color-text);
+  transition: all var(--dur) var(--ease);
+}
+.chip:hover { border-color: var(--unaids-red); color: var(--unaids-red); }
+.chipActive {
+  background: var(--unaids-red);
+  border-color: var(--unaids-red);
+  color: var(--white);
+  font-weight: 700;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 28px;
+}
+.state {
+  color: var(--unaids-grey);
+  font-size: 1.05rem;
+  padding: 40px 0;
+}

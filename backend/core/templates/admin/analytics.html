@@ -1,0 +1,47 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+<style>
+  .an-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:16px; margin:20px 0 32px; }
+  .an-card { background:#fff; border:1px solid #e6e7e8; border-radius:12px; padding:22px; }
+  .an-num { font-size:2.4rem; font-weight:900; color:#e31837; line-height:1; }
+  .an-label { color:#808284; font-size:.85rem; text-transform:uppercase; letter-spacing:.06em; margin-top:8px; }
+  .an-table { width:100%; border-collapse:collapse; margin-bottom:32px; }
+  .an-table th, .an-table td { text-align:left; padding:10px 12px; border-bottom:1px solid #e6e7e8; }
+  .an-table th { color:#808284; font-size:.8rem; text-transform:uppercase; }
+  h2 { color:#000; }
+</style>
+
+<h1>Analytics</h1>
+
+<div class="an-grid">
+  <div class="an-card"><div class="an-num">{{ totals.downloads }}</div><div class="an-label">Total downloads</div></div>
+  <div class="an-card"><div class="an-num">{{ totals.documents }}</div><div class="an-label">Documents</div></div>
+  <div class="an-card"><div class="an-num">{{ totals.news }}</div><div class="an-label">News posts</div></div>
+  <div class="an-card"><div class="an-num">{{ totals.countries }}</div><div class="an-label">Countries</div></div>
+  <div class="an-card"><div class="an-num">{{ totals.messages }}</div><div class="an-label">Unhandled messages</div></div>
+</div>
+
+<h2>Most downloaded</h2>
+<table class="an-table">
+  <thead><tr><th>Document</th><th>Section</th><th>Downloads</th></tr></thead>
+  <tbody>
+    {% for d in top %}
+      <tr><td>{{ d.title }}</td><td>{{ d.get_section_display }}</td><td>{{ d.download_count }}</td></tr>
+    {% empty %}
+      <tr><td colspan="3">No documents yet.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h2>Recent downloads</h2>
+<table class="an-table">
+  <thead><tr><th>Document</th><th>When</th><th>IP</th></tr></thead>
+  <tbody>
+    {% for e in recent %}
+      <tr><td>{{ e.document.title }}</td><td>{{ e.created_at }}</td><td>{{ e.ip|default:"—" }}</td></tr>
+    {% empty %}
+      <tr><td colspan="3">No downloads recorded yet.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

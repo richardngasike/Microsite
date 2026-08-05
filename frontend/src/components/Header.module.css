@@ -1,0 +1,285 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--white);
+  transition: box-shadow var(--dur) var(--ease);
+}
+.header.scrolled {
+  box-shadow: var(--shadow-sm);
+}
+
+/* ---------- Tier 1: white row ---------- */
+.topRow {
+  background: var(--white);
+}
+.topRowInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  min-height: 72px;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+}
+.logoImg {
+  height: 44px;
+  width: auto;
+}
+
+/* Featured "For …" quick links with icons */
+.featuredNav {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  flex: 1;
+  justify-content: center;
+}
+.featuredLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 1.0625rem;
+  color: var(--unaids-black);
+  transition: color var(--dur) var(--ease);
+}
+.featuredLink span { font-weight: 400; }
+.featuredLink strong { font-weight: 700; color: var(--unaids-red); }
+.featuredIcon {
+  width: 20px;
+  height: 20px;
+  color: var(--unaids-red);
+  flex-shrink: 0;
+  transition: transform var(--dur) var(--ease);
+}
+.featuredLink:hover { color: var(--unaids-red-dark); }
+.featuredLink:hover strong { color: var(--unaids-red-dark); }
+.featuredLink:hover .featuredIcon { transform: translateY(-1px) scale(1.08); }
+
+.topActions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.searchBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  color: var(--unaids-red);
+  font-size: 1.0625rem;
+  font-weight: 500;
+  padding: 6px 2px;
+  transition: color var(--dur) var(--ease);
+}
+.searchBtn:hover { color: var(--unaids-red-dark); }
+.searchIcon { width: 18px; height: 18px; }
+
+/* ---------- Tier 2: red bar ---------- */
+.redBar {
+  background: var(--unaids-red);
+}
+.redBarInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 60px;
+  gap: 16px;
+}
+
+.primaryNav {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+.navLink {
+  color: var(--white);
+  font-size: 1.0625rem;
+  font-weight: 500;
+  padding: 6px 0;
+  position: relative;
+  white-space: nowrap;
+  transition: opacity var(--dur) var(--ease);
+}
+.navLink::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  height: 2px;
+  width: 0;
+  background: var(--white);
+  transition: width var(--dur) var(--ease);
+}
+.navLink:hover { opacity: 0.85; }
+.navLink:hover::after,
+.navLinkActive::after { width: 100%; }
+.navLinkActive { font-weight: 700; }
+
+.auth {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-shrink: 0;
+}
+.signIn {
+  color: var(--white);
+  font-weight: 500;
+  font-size: 1.0625rem;
+  transition: opacity var(--dur) var(--ease);
+}
+.signIn:hover { opacity: 0.85; }
+.createAccount {
+  background: var(--white);
+  color: var(--unaids-red);
+  font-weight: 700;
+  font-size: 1.0625rem;
+  padding: 11px 24px;
+  border-radius: var(--radius-pill);
+  transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+}
+.createAccount:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ---------- Mobile ---------- */
+.burger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  padding: 8px 4px;
+}
+.burger span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--white);
+  transition: transform var(--dur) var(--ease);
+}
+
+@media (max-width: 1080px) {
+  .featuredNav { display: none; }
+}
+
+@media (max-width: 920px) {
+  .burger { display: flex; }
+  .primaryNav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    background: var(--unaids-red);
+    padding: 8px 24px 20px;
+    box-shadow: var(--shadow-md);
+    display: none;
+  }
+  .primaryNav.open { display: flex; }
+  .navLink { width: 100%; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.18); }
+  .redBarInner { position: relative; }
+}
+
+@media (max-width: 520px) {
+  .createAccount { padding: 9px 16px; }
+  .auth { gap: 12px; }
+  .signIn { display: none; }
+}
+
+/* ── User menu (signed-in state) ─────────────────────────────────────────── */
+.userWrap {
+  position: relative;
+}
+.userBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  background: rgba(255,255,255,0.15);
+  border: 1.5px solid rgba(255,255,255,0.35);
+  border-radius: var(--radius-pill);
+  padding: 7px 14px 7px 7px;
+  cursor: pointer;
+  transition: background var(--dur) var(--ease);
+}
+.userBtn:hover { background: rgba(255,255,255,0.25); }
+
+.userAvatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--white);
+  color: var(--unaids-red);
+  font-size: 0.75rem;
+  font-weight: 900;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+.userName {
+  color: var(--white);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+/* Dropdown */
+.userDropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  min-width: 220px;
+  background: var(--white);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+  animation: dropIn 180ms var(--ease);
+  z-index: 200;
+}
+@keyframes dropIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.userDropdownInfo {
+  padding: 16px 18px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.userDropdownName {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--unaids-black);
+}
+.userDropdownEmail {
+  font-size: 0.82rem;
+  color: var(--unaids-grey);
+  word-break: break-all;
+}
+.userDropdownDivider {
+  height: 1px;
+  background: var(--color-border);
+}
+.logoutBtn {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 13px 18px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--unaids-grey);
+  cursor: pointer;
+  transition: color var(--dur) var(--ease), background var(--dur) var(--ease);
+}
+.logoutBtn:hover { color: var(--unaids-red); background: var(--grey-100); }
