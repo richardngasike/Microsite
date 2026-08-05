@@ -7,3 +7,4 @@ python-dotenv==1.1.1
 Pillow
 gunicorn==23.0.0
 whitenoise==6.9.0
+pdf2image==1.17.0
