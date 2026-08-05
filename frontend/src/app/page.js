@@ -103,7 +103,7 @@ export default function HomePage() {
           <div className={styles.sectionHead}>
             <div>
               <span className={styles.sectionEyebrow}>Technical guidance</span>
-              <h2 className={styles.sectionTitle}>Tools to build sustainability roadmaps</h2>
+              <h2 className={styles.sectionTitle}>Access a collection of news, stories, video, publications and infographics related to the sustainability of the HIV response.</h2>
             </div>
             <Link href="/technical-guidance" className={styles.viewAll}>
               View all <ArrowIcon />

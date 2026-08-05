@@ -10,7 +10,7 @@ export const metadata = {
     template: `%s | ${SITE.org} Sustainability`,
   },
   description: SITE.tagline,
-  icons: { icon: "/images/favicon.svg" },
+  icons: { icon: "/images/favicon.png" },
 };
 
 export default function RootLayout({ children }) {
