@@ -40,10 +40,19 @@ INSTALLED_APPS = [
     "core",
 ]
 
+
 # ── Middleware ─────────────────────────────────────────────────────────────
 MIDDLEWARE = [
-    "corsheaders.middleware.CorsMiddleware",        # must be first
+    # Security
     "django.middleware.security.SecurityMiddleware",
+
+    # Serve static files (Render/Production)
+    "whitenoise.middleware.WhiteNoiseMiddleware",
+
+    # CORS
+    "corsheaders.middleware.CorsMiddleware",
+
+    # Django middleware
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -135,7 +144,15 @@ USE_TZ = True
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
+STORAGES = {
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
+
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
 
 # ── Django REST Framework ─────────────────────────────────────────────────
 REST_FRAMEWORK = {
