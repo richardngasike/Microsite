@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+"""Django management entry point."""
 import os
 import sys
 
@@ -9,9 +10,8 @@ def main():
         from django.core.management import execute_from_command_line
     except ImportError as exc:
         raise ImportError(
-            "Couldn't import Django. Are you sure it's installed and "
-            "available on your PYTHONPATH? Did you activate a virtual "
-            "environment?"
+            "Couldn't import Django. Activate your virtual environment "
+            "and run: pip install -r requirements.txt"
         ) from exc
     execute_from_command_line(sys.argv)
 

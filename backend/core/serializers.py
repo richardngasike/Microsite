@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import (
     Region, Country, Document, NewsPost, Faq, Person, ContactMessage,
+    AdvisoryMember,
 )
 
 
@@ -80,3 +81,11 @@ class ContactMessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = ContactMessage
         fields = ["name", "email", "subject", "message"]
+
+
+class AdvisoryMemberSerializer(serializers.ModelSerializer):
+    group_display = serializers.CharField(source="get_group_display", read_only=True)
+
+    class Meta:
+        model = AdvisoryMember
+        fields = ["id", "name", "role", "group", "group_display", "bio", "photo_url", "order"]

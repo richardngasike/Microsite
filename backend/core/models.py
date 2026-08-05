@@ -16,6 +16,7 @@ class DocumentSection(models.TextChoices):
     RESOURCE = "resource", "Resource"
     GUIDANCE = "guidance", "Technical Guidance"
     GC8 = "gc8", "GC8"
+    ROADMAP = "roadmap", "Sustainability Roadmap"
     COUNTRY = "country", "Country Profile"
 
 
@@ -208,3 +209,48 @@ class ContactMessage(models.Model):
 
     def __str__(self):
         return f"{self.name} — {self.subject or 'No subject'}"
+
+
+# --- Advisory Committee ----------------------------------------------------
+class AdvisoryMemberGroup(models.TextChoices):
+    SECRETARIAT = "secretariat", "Advisory Committee Secretariat"
+    COCHAIR = "cochair", "Co-Chairs"
+    GOVERNMENT = "government", "Members – Government Representatives"
+    COMMUNITIES = "communities", "Members – Communities"
+    INDEPENDENT = "independent", "Members – Independent Experts"
+    REGIONAL = "regional", "Members – Regional Entities"
+    DEVELOPMENT = "development", "Members – Development Partners"
+
+
+class AdvisoryMember(TimeStamped):
+    """
+    A member of the UNAIDS Advisory Committee on Sustainability of the HIV Response.
+    Group controls which section of the page they appear under.
+    Admin can add, edit, reorder or remove members at any time.
+    """
+    name = models.CharField(max_length=160)
+    role = models.CharField(
+        max_length=300,
+        blank=True,
+        help_text="Short title shown under the name, e.g. 'Director of Primary Health Care, Namibia'",
+    )
+    group = models.CharField(
+        max_length=20,
+        choices=AdvisoryMemberGroup.choices,
+        default=AdvisoryMemberGroup.GOVERNMENT,
+    )
+    bio = models.TextField(
+        blank=True,
+        help_text="Full biography paragraph(s). Plain text — line breaks become paragraphs.",
+    )
+    photo_url = models.URLField(blank=True, help_text="Supabase public URL for headshot.")
+    order = models.PositiveIntegerField(default=0, help_text="Lower = appears first within the group.")
+    published = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ["group", "order", "name"]
+        verbose_name = "Advisory Committee Member"
+        verbose_name_plural = "Advisory Committee Members"
+
+    def __str__(self):
+        return f"{self.name} ({self.get_group_display()})"

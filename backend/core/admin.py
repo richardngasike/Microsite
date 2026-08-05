@@ -20,7 +20,7 @@ from django.utils.html import format_html
 
 from .models import (
     Region, Country, Document, DownloadEvent, NewsPost, Faq, Person,
-    ContactMessage,
+    ContactMessage, AdvisoryMember,
 )
 from . import storage
 
@@ -144,6 +144,19 @@ class ContactAdmin(admin.ModelAdmin):
 class DownloadEventAdmin(admin.ModelAdmin):
     list_display = ("document", "created_at", "ip")
     list_filter = ("created_at",)
+
+
+@admin.register(AdvisoryMember)
+class AdvisoryMemberAdmin(admin.ModelAdmin):
+    list_display = ("name", "group", "role", "order", "published")
+    list_filter = ("group", "published")
+    list_editable = ("order", "published")
+    search_fields = ("name", "role", "bio")
+    fieldsets = (
+        (None, {"fields": ("name", "role", "group", "photo_url")}),
+        ("Biography", {"fields": ("bio",)}),
+        ("Display", {"fields": ("order", "published")}),
+    )
 
 
 # --- Analytics dashboard ---------------------------------------------------
