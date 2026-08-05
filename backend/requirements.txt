@@ -1,7 +1,7 @@
 Django==5.2.6
 djangorestframework==3.16.1
 django-cors-headers==4.8.0
-psycopg[binary]==3.2.9
+psycopg[binary]
 supabase==2.18.1
 python-dotenv==1.1.1
 Pillow==11.3.0
