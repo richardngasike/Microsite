@@ -95,26 +95,13 @@ Log in at `/admin/`. Everything the public site shows is managed here:
   downloads, documents, news, countries, unhandled messages, most-downloaded
   documents, and recent download events. Each document also shows its own count.
 
-### PDF thumbnails
-Image and office files get thumbnails out of the box. For true **PDF page-1**
-thumbnails, install Poppler on the server and add `pdf2image`:
-```bash
-# Debian/Ubuntu
-apt-get install poppler-utils
-pip install pdf2image
-```
-Without Poppler, PDFs get a clean branded placeholder thumbnail instead.
+
 
 ---
 
 ## 4. Frontend setup
 
-### 4.1 Add brand assets to `frontend/public/`
-- `fonts/Avenir-Book.woff2`, `Avenir-Medium.woff2`, `Avenir-Heavy.woff2`,
-  `Avenir-Black.woff2`
-- `images/unaids-logo.svg`, `unaids-logo-white.svg`, `favicon.svg`
-  (placeholders are included — replace with the official logo)
-- `images/hero-1.jpg`, `hero-2.jpg`, `hero-3.jpg` (slider backgrounds)
+
 
 ### 4.2 Run / build
 ```bash
@@ -155,19 +142,7 @@ Set `DEBUG=False`, real `ALLOWED_HOSTS`, and add your deployed frontend URL to
 
 ---
 
-## 6. Colours & type (brand)
 
-| Token | Value |
-|---|---|
-| UNAIDS red | `#e31837` — rgb(227,24,55) |
-| Black | `#000000` |
-| Grey | `#808284` — rgb(128,130,133) |
-| Font | Avenir (with system fallbacks) |
-
-Defined once in `frontend/src/styles/globals.css` as CSS variables; every
-component reads from them.
-
----
 
 ## 7. API reference (public, read-only)
 
@@ -189,8 +164,3 @@ component reads from them.
 
 ## 8. Content note
 
-Copy on the site uses **verified content from the live UNAIDS sustainability
-site** (the five domains, roadmap / Primer / Companion Guide language, the eight
-UNAIDS regions). Nothing was invented. Review interior-page wording against the
-originals and edit freely from the admin where you want changes.
-# Microsite
