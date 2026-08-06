@@ -5,7 +5,6 @@ import Link from "next/link";
 import styles from "./HeroSlider.module.css";
 
 // Slides use real UNAIDS sustainability messaging. Background images are
-// placed in /public/images — swap the src values for the official assets.
 const SLIDES = [
   {
     id: "approach",

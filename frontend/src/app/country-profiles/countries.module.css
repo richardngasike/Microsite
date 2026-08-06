@@ -1,6 +1,26 @@
-.wrap { padding-top: 48px; padding-bottom: 40px; }
+/* ==========================================================================
+   Country Profiles — countries.module.css
+   ========================================================================== */
+
+.wrap { padding-top: 48px; padding-bottom: 64px; }
 .state { color: var(--unaids-grey); font-size: 1.05rem; padding: 40px 0; }
 
+/* ── Intro ───────────────────────────────────────────────────────────────── */
+.intro {
+  max-width: 900px;
+  margin-bottom: 40px;
+}
+.intro p { font-size: 1.06rem; line-height: 1.78; color: var(--color-text); }
+.intro strong { color: var(--unaids-black); font-weight: 700; }
+
+/* ── Search row ──────────────────────────────────────────────────────────── */
+.searchRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 36px;
+  flex-wrap: wrap;
+}
 .searchBox {
   display: flex;
   align-items: center;
@@ -10,8 +30,8 @@
   border-radius: var(--radius-pill);
   padding: 12px 20px;
   color: var(--unaids-grey);
-  max-width: 420px;
-  margin-bottom: 44px;
+  max-width: 400px;
+  flex: 1;
 }
 .searchBox input {
   border: none;
@@ -22,54 +42,184 @@
   background: transparent;
   color: var(--color-text);
 }
-
-.region { margin-bottom: 48px; }
-.regionTitle {
-  font-size: 1.5rem;
-  padding-bottom: 14px;
-  margin-bottom: 22px;
-  border-bottom: 2px solid var(--unaids-red);
-  display: inline-block;
+.backBtn {
+  background: none;
+  border: 1.5px solid var(--unaids-red);
+  color: var(--unaids-red);
+  font-weight: 700;
+  font-size: 0.92rem;
+  padding: 10px 20px;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: all var(--dur) var(--ease);
+  white-space: nowrap;
 }
-.grid {
+.backBtn:hover { background: var(--unaids-red); color: var(--white); }
+
+/* ── Region cards grid (View 1) ──────────────────────────────────────────── */
+.regionGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 18px;
+}
+
+.regionCard {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--white);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 22px 20px;
+  text-align: left;
+  cursor: pointer;
+  transition: all var(--dur) var(--ease);
+  width: 100%;
+}
+.regionCard:hover {
+  border-color: var(--unaids-red);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-3px);
+}
+.regionCard:hover .regionCardIcon { background: var(--unaids-red); color: var(--white); }
+
+.regionCardIcon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-sm);
+  background: rgba(227,24,55,0.08);
+  color: var(--unaids-red);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  transition: all var(--dur) var(--ease);
+}
+.regionCardBody { flex: 1; }
+.regionCardName {
+  display: block;
+  font-weight: 700;
+  font-size: 1.02rem;
+  color: var(--unaids-black);
+  line-height: 1.3;
+  margin-bottom: 4px;
+}
+.regionCardCount {
+  font-size: 0.84rem;
+  color: var(--unaids-grey);
+  font-weight: 500;
+}
+.regionCard > svg:last-child { color: var(--unaids-grey); flex-shrink: 0; }
+.regionCard:hover > svg:last-child { color: var(--unaids-red); }
+
+/* ── Region detail panel (View 2) ────────────────────────────────────────── */
+.regionDetail {
+  animation: fadeIn 220ms var(--ease);
+}
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+.regionDetailHeader {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 28px;
+  padding-bottom: 22px;
+  border-bottom: 2px solid var(--unaids-red);
+}
+.regionDetailIcon {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-sm);
+  background: var(--unaids-red);
+  color: var(--white);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+.regionDetailName {
+  font-size: clamp(1.4rem, 2.5vw, 2rem);
+  font-weight: 900;
+  color: var(--unaids-black);
+}
+.regionDetailCount { color: var(--unaids-grey); font-size: 0.9rem; font-weight: 500; }
+
+/* ── Country cards grid (View 2 → 3) ────────────────────────────────────── */
+.countryGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 14px;
+  gap: 12px;
+  margin-bottom: 32px;
 }
-.country {
+
+.countryCard {
   display: flex;
   align-items: center;
   gap: 12px;
   background: var(--white);
-  border: 1px solid var(--color-border);
+  border: 1.5px solid var(--color-border);
   border-radius: var(--radius-md);
-  padding: 16px 20px;
-  font-weight: 500;
-  font-size: 1.05rem;
-  color: var(--color-text);
+  padding: 15px 18px;
+  cursor: pointer;
+  text-align: left;
   transition: all var(--dur) var(--ease);
+  width: 100%;
 }
-.country span { flex: 1; }
-.country svg { color: var(--unaids-grey); transition: transform var(--dur) var(--ease); }
-.country:hover {
+.countryCard:hover {
   border-color: var(--unaids-red);
   box-shadow: var(--shadow-sm);
   transform: translateY(-2px);
 }
-.country:hover svg { color: var(--unaids-red); transform: translateX(3px); }
-.flag { width: 28px; height: 20px; object-fit: cover; border-radius: 3px; }
+.countryCardActive {
+  border-color: var(--unaids-red);
+  background: rgba(227,24,55,0.04);
+}
+.countryFlag { width: 30px; height: 21px; object-fit: cover; border-radius: 3px; flex-shrink: 0; }
+.countryName { flex: 1; font-weight: 600; font-size: 1rem; color: var(--unaids-black); }
+.countryChevron { color: var(--unaids-grey); flex-shrink: 0; }
+.countryCardActive .countryChevron { color: var(--unaids-red); }
 
-/* Intro paragraph added with country profile text */
-.intro {
-  max-width: 900px;
-  margin-bottom: 40px;
+/* ── Documents panel (View 3) ────────────────────────────────────────────── */
+.documentsPanel {
+  background: var(--grey-100);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  margin-top: 8px;
+  animation: fadeIn 220ms var(--ease);
+  border: 1px solid var(--color-border);
 }
-.intro p {
-  font-size: 1.06rem;
-  line-height: 1.78;
-  color: var(--color-text);
+
+.documentsPanelHeader {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 20px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--color-border);
 }
-.intro strong {
-  color: var(--unaids-black);
-  font-weight: 700;
+.docPanelFlag { width: 44px; height: 31px; object-fit: cover; border-radius: 4px; flex-shrink: 0; }
+.documentsPanelTitle { font-size: 1.4rem; font-weight: 900; color: var(--unaids-black); }
+
+.countrySummary {
+  max-width: 760px;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--unaids-grey);
+  margin-bottom: 24px;
+}
+.countrySummary p { margin-bottom: 0.8em; }
+
+.emptyDocs { color: var(--unaids-grey); font-size: 1rem; padding: 20px 0; }
+
+.docsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 22px;
+}
+
+/* ── Responsive ─────────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .regionGrid { grid-template-columns: 1fr; }
+  .countryGrid { grid-template-columns: 1fr; }
+  .docsGrid { grid-template-columns: 1fr; }
+  .documentsPanel { padding: 22px 16px; }
+  .wrap { padding-top: 36px; }
 }
