@@ -58,7 +58,8 @@ export default function CountryProfilesPage() {
   return (
     <>
       <PageHero
-        eyebrow="Country Profiles"
+        title="Country Profiles"
+  
       />
 
       <div className={`container ${styles.wrap}`}>
