@@ -51,7 +51,7 @@
 .featuredIcon {
   width: 20px;
   height: 20px;
-  color: var(--unaids-red);
+  color: var(--unaids-black);
   flex-shrink: 0;
   transition: transform var(--dur) var(--ease);
 }
