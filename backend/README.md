@@ -23,13 +23,13 @@ Admin at `http://localhost:8000/admin/`
 
 | Variable | Required | Description |
 |---|---|---|
-| `SECRET_KEY` | ✅ | Any long random string (50+ chars) |
-| `DEBUG` | ✅ | `False` in production, `True` locally |
-| `ALLOWED_HOSTS` | ✅ | Comma-separated hostnames, e.g. `api.yourdomain.com` |
-| `CORS_ALLOWED_ORIGINS` | ✅ | Frontend URL(s), e.g. `https://xxx.vercel.app` |
-| `DATABASE_URL` | ✅ | Supabase Postgres URI (see below) |
-| `SUPABASE_URL` | ✅ | `https://xxxx.supabase.co` |
-| `SUPABASE_SERVICE_KEY` | ✅ | Supabase service_role key |
+| `SECRET_KEY` Any long random string (50+ chars) |
+| `DEBUG`  `False` in production, `True` locally |
+| `ALLOWED_HOSTS`  Comma-separated hostnames, e.g. `api.yourdomain.com` |
+| `CORS_ALLOWED_ORIGINS`  Frontend URL(s), e.g. `https://xxx.vercel.app` |
+| `DATABASE_URL`  Supabase Postgres URI (see below) |
+| `SUPABASE_URL` `https://xxxx.supabase.co` |
+| `SUPABASE_SERVICE_KEY` Supabase service_role key |
 | `SUPABASE_BUCKET` | — | Storage bucket name, default `documents` |
 
 ---
