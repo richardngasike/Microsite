@@ -12,18 +12,22 @@ import styles from "./page.module.css";
 
 export default function HomePage() {
   const [resources, setResources] = useState([]);
-  const [news, setNews] = useState([]);
+  const [news, setNews]           = useState([]);
 
   useEffect(() => {
-    getResources("?featured=true&limit=3").then((d) => setResources(d.slice(0, 3)));
-    getNews("?limit=3").then((d) => setNews(d.slice(0, 3)));
+    // ?featured=true returns docs marked featured in admin across all sections
+    // DRF pagination means we take the first 3 from results
+    getResources("?featured=true").then((d) =>
+      setResources(Array.isArray(d) ? d.slice(0, 3) : [])
+    );
+    getNews().then((d) =>
+      setNews(Array.isArray(d) ? d.slice(0, 3) : [])
+    );
   }, []);
 
   return (
     <>
       <HeroSlider />
-
-      
 
       {/* ── FIVE DOMAINS ───────────────────────────────────────────────── */}
       <section className={styles.domainsSection}>
@@ -47,7 +51,6 @@ export default function HomePage() {
 
       {/* ── FEATURE MOSAIC ─────────────────────────────────────────────── */}
       <section className={styles.mosaic}>
-        {/* Large lead tile */}
         <Link href="/about" className={`${styles.tile} ${styles.tileLead}`}>
           <img src="/images/Eveline Simaloy_7757.png" alt="" className={styles.tileImg} />
           <div className={styles.tileScrim} />
@@ -57,7 +60,6 @@ export default function HomePage() {
           </div>
         </Link>
 
-        {/* Right grid — 2 × 2 */}
         <div className={styles.mosaicGrid}>
           <Link href="/sustainability-roadmaps" className={styles.tile}>
             <img src="/images/Lorraine Mashishi_5948.jpg" alt="" className={styles.tileImg} />
@@ -119,7 +121,10 @@ export default function HomePage() {
           ) : (
             <div className={styles.emptyState}>
               <span className={styles.emptyIcon}>📄</span>
-              <p>Guidance documents will appear here once published.</p>
+              <p>
+                Mark documents as <strong>Featured</strong> in the admin to
+                show them here.
+              </p>
             </div>
           )}
         </div>

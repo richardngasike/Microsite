@@ -5,14 +5,12 @@ import Link from "next/link";
 import { search } from "@/lib/api";
 import styles from "./SearchOverlay.module.css";
 
-// Full-screen search that queries the Django /search endpoint. Debounced,
-// keyboard-accessible, closes on Escape or backdrop click.
 export default function SearchOverlay({ onClose }) {
-  const [q, setQ] = useState("");
+  const [q, setQ]             = useState("");
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [touched, setTouched] = useState(false);
-  const inputRef = useRef(null);
+  const inputRef   = useRef(null);
   const debounceRef = useRef(null);
 
   useEffect(() => {
@@ -27,11 +25,7 @@ export default function SearchOverlay({ onClose }) {
   }, [onClose]);
 
   const runSearch = useCallback(async (term) => {
-    if (!term.trim()) {
-      setResults([]);
-      setTouched(false);
-      return;
-    }
+    if (!term.trim()) { setResults([]); setTouched(false); return; }
     setLoading(true);
     setTouched(true);
     const data = await search(term.trim());
@@ -41,9 +35,12 @@ export default function SearchOverlay({ onClose }) {
 
   useEffect(() => {
     clearTimeout(debounceRef.current);
-    debounceRef.current = setTimeout(() => runSearch(q), 260);
+    debounceRef.current = setTimeout(() => runSearch(q), 280);
     return () => clearTimeout(debounceRef.current);
   }, [q, runSearch]);
+
+  // Determine if a result URL is internal (starts with /) or external
+  const isInternal = (url) => url && url.startsWith("/");
 
   return (
     <div className={styles.backdrop} onMouseDown={onClose}>
@@ -70,36 +67,57 @@ export default function SearchOverlay({ onClose }) {
           </button>
         </div>
 
-        <div className={styles.results}>
-          {loading && <p className={styles.status}>Searching…</p>}
+        <div className={styles.results} role="list">
+          {loading && (
+            <div className={styles.statusRow}>
+              <span className={styles.spinner} aria-label="Searching…" />
+              <span className={styles.status}>Searching…</span>
+            </div>
+          )}
 
           {!loading && touched && results.length === 0 && (
             <p className={styles.status}>
-              No results for “{q}”. Try a different term.
+              No results for "<strong>{q}</strong>". Try a different term.
             </p>
           )}
 
-          {!loading &&
-            results.map((r) => (
+          {!loading && results.map((r, i) => (
+            isInternal(r.url) ? (
               <Link
-                key={`${r.type}-${r.id}`}
+                key={`${r.type}-${r.id ?? i}`}
                 href={r.url}
                 className={styles.result}
                 onClick={onClose}
+                role="listitem"
               >
-                <span className={styles.resultType}>{r.type}</span>
-                <span className={styles.resultTitle}>{r.title}</span>
-                {r.excerpt && (
-                  <span className={styles.resultExcerpt}>{r.excerpt}</span>
-                )}
+                <ResultInner r={r} />
               </Link>
-            ))}
+            ) : (
+              <a
+                key={`${r.type}-${r.id ?? i}`}
+                href={r.url}
+                target="_blank"
+                rel="noreferrer"
+                className={styles.result}
+                onClick={onClose}
+                role="listitem"
+              >
+                <ResultInner r={r} />
+              </a>
+            )
+          ))}
 
           {!touched && (
-            <p className={styles.hint}>
-              Find technical guidance, country profiles, GC8 documents, news and
-              resources across the site.
-            </p>
+            <div className={styles.hint}>
+              <p>Find technical guidance, country profiles, GC8 documents, news and resources.</p>
+              <div className={styles.hintChips}>
+                {["Sustainability", "Country profiles", "GC8", "Roadmaps"].map((term) => (
+                  <button key={term} className={styles.chip} onClick={() => setQ(term)}>
+                    {term}
+                  </button>
+                ))}
+              </div>
+            </div>
           )}
         </div>
       </div>
@@ -107,9 +125,21 @@ export default function SearchOverlay({ onClose }) {
   );
 }
 
+function ResultInner({ r }) {
+  return (
+    <>
+      <span className={styles.resultType}>{r.type}</span>
+      <span className={styles.resultTitle}>{r.title}</span>
+      {r.excerpt && (
+        <span className={styles.resultExcerpt}>{r.excerpt}</span>
+      )}
+    </>
+  );
+}
+
 function SearchIcon() {
   return (
-    <svg className={styles.icon} width="22" height="22" viewBox="0 0 24 24" fill="none">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
       <circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="2" />
       <path d="M21 21l-4.35-4.35" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
     </svg>
