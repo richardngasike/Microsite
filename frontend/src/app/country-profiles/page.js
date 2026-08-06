@@ -59,8 +59,6 @@ export default function CountryProfilesPage() {
     <>
       <PageHero
         eyebrow="Country Profiles"
-        title="Sustainability by country"
-        lead="The Country Profiles page hosts country profiles, which form part of an analytical resource package designed to support understanding of a country's HIV response sustainability landscape."
       />
 
       <div className={`container ${styles.wrap}`}>
