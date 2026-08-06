@@ -1,19 +1,270 @@
-/* Sustainability Roadmaps — roadmaps.module.css */
-.wrap {
-  padding-top: 56px;
-  padding-bottom: 48px;
-}
+/* ==========================================================================
+   Sustainability Roadmaps — roadmaps.module.css
+   Mirrors country-profiles/countries.module.css with roadmap-specific tweaks
+   ========================================================================== */
 
+.wrap { padding-top: 48px; padding-bottom: 64px; }
+.state { color: var(--unaids-grey); font-size: 1.05rem; padding: 40px 0; }
+
+/* ── Intro ───────────────────────────────────────────────────────────────── */
 .intro {
   max-width: 900px;
-  margin-bottom: 44px;
+  margin-bottom: 40px;
 }
-.intro p {
-  font-size: 1.06rem;
-  line-height: 1.78;
+.intro p { font-size: 1.06rem; line-height: 1.78; color: var(--color-text); }
+.intro strong { color: var(--unaids-black); font-weight: 700; }
+
+/* ── Search row ──────────────────────────────────────────────────────────── */
+.searchRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 36px;
+  flex-wrap: wrap;
+}
+.searchBox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  padding: 12px 20px;
+  color: var(--unaids-grey);
+  max-width: 400px;
+  flex: 1;
+}
+.searchBox input {
+  border: none;
+  outline: none;
+  font-family: inherit;
+  font-size: 1rem;
+  flex: 1;
+  background: transparent;
   color: var(--color-text);
 }
-.intro strong {
-  color: var(--unaids-black);
+.backBtn {
+  background: none;
+  border: 1.5px solid var(--unaids-red);
+  color: var(--unaids-red);
   font-weight: 700;
+  font-size: 0.92rem;
+  padding: 10px 20px;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: all var(--dur) var(--ease);
+  white-space: nowrap;
+}
+.backBtn:hover { background: var(--unaids-red); color: var(--white); }
+
+/* ── Region cards grid (View 1) ──────────────────────────────────────────── */
+.regionGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 18px;
+}
+
+.regionCard {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--white);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 22px 20px;
+  text-align: left;
+  cursor: pointer;
+  transition: all var(--dur) var(--ease);
+  width: 100%;
+}
+.regionCard:hover {
+  border-color: var(--unaids-red);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-3px);
+}
+.regionCard:hover .regionCardIcon {
+  background: var(--unaids-red);
+  color: var(--white);
+}
+
+.regionCardIcon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-sm);
+  background: rgba(227,24,55,0.08);
+  color: var(--unaids-red);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  transition: all var(--dur) var(--ease);
+}
+.regionCardBody { flex: 1; }
+.regionCardName {
+  display: block;
+  font-weight: 700;
+  font-size: 1.02rem;
+  color: var(--unaids-black);
+  line-height: 1.3;
+  margin-bottom: 4px;
+}
+.regionCardCount {
+  font-size: 0.84rem;
+  color: var(--unaids-grey);
+  font-weight: 500;
+}
+.regionCard > svg:last-child { color: var(--unaids-grey); flex-shrink: 0; }
+.regionCard:hover > svg:last-child { color: var(--unaids-red); }
+
+/* ── Region detail (View 2) ──────────────────────────────────────────────── */
+.regionDetail {
+  animation: fadeIn 220ms var(--ease);
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.regionDetailHeader {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 28px;
+  padding-bottom: 22px;
+  border-bottom: 2px solid var(--unaids-red);
+}
+.regionDetailIcon {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-sm);
+  background: var(--unaids-red);
+  color: var(--white);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+.regionDetailName {
+  font-size: clamp(1.4rem, 2.5vw, 2rem);
+  font-weight: 900;
+  color: var(--unaids-black);
+}
+.regionDetailCount {
+  color: var(--unaids-grey);
+  font-size: 0.88rem;
+  font-weight: 500;
+  display: block;
+  margin-top: 3px;
+}
+
+/* ── Country cards grid (View 2) ─────────────────────────────────────────── */
+.countryGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.countryCard {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--white);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 15px 18px;
+  cursor: pointer;
+  text-align: left;
+  transition: all var(--dur) var(--ease);
+  width: 100%;
+}
+.countryCard:hover {
+  border-color: var(--unaids-red);
+  box-shadow: var(--shadow-sm);
+  transform: translateY(-2px);
+}
+.countryCardActive {
+  border-color: var(--unaids-red);
+  background: rgba(227,24,55,0.04);
+}
+.countryFlag {
+  width: 30px;
+  height: 21px;
+  object-fit: cover;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+.countryName { flex: 1; font-weight: 600; font-size: 1rem; color: var(--unaids-black); }
+.countryChevron { color: var(--unaids-grey); flex-shrink: 0; }
+.countryCardActive .countryChevron { color: var(--unaids-red); }
+
+/* ── Documents panel (View 3) ────────────────────────────────────────────── */
+.documentsPanel {
+  background: var(--grey-100);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  margin-top: 8px;
+  animation: fadeIn 220ms var(--ease);
+  border: 1px solid var(--color-border);
+}
+
+.documentsPanelHeader {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--color-border);
+}
+.docPanelFlag {
+  width: 48px;
+  height: 34px;
+  object-fit: cover;
+  border-radius: 4px;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-sm);
+}
+.documentsPanelTitle {
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: var(--unaids-black);
+  line-height: 1.2;
+}
+.documentsPanelSub {
+  font-size: 0.88rem;
+  color: var(--unaids-grey);
+  margin-top: 3px;
+}
+
+/* Empty state */
+.emptyDocs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--unaids-grey);
+}
+.emptyDocs p {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--unaids-black);
+  margin: 0;
+}
+.emptyDocs span { font-size: 0.9rem; max-width: 40ch; }
+
+/* Docs grid */
+.docsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 22px;
+}
+
+/* ── Responsive ──────────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .regionGrid { grid-template-columns: 1fr; }
+  .countryGrid { grid-template-columns: 1fr; }
+  .docsGrid { grid-template-columns: 1fr; }
+  .documentsPanel { padding: 22px 16px; }
+  .wrap { padding-top: 36px; }
+  .documentsPanelTitle { font-size: 1.1rem; }
 }

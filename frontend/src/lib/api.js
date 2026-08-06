@@ -42,11 +42,19 @@ export const trackDownload = (id) =>
 export const getGuidance = () =>
   request(`/guidance/`).then((d) => d?.results ?? d ?? []);
 
-// --- Sustainability Roadmaps ----------------------------------------------
+// --- Sustainability Roadmaps -----------------------------------------------
+// All roadmaps (used by the page summary / fallback).
 export const getRoadmaps = () =>
   request(`/roadmaps/`).then((d) => d?.results ?? d ?? []);
 
-// --- Countries && regions ---------------------------------------------------
+// Roadmap documents for a specific country — used by the region→country→docs
+// drill-down on the Sustainability Roadmaps page.
+export const getRoadmapsByCountry = (countrySlug) =>
+  request(`/roadmaps/?country=${encodeURIComponent(countrySlug)}`).then(
+    (d) => d?.results ?? d ?? []
+  );
+
+// --- Countries & regions ---------------------------------------------------
 export const getRegions = () =>
   request(`/regions/`).then((d) => d?.results ?? d ?? []);
 

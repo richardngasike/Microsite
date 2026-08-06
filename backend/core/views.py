@@ -55,7 +55,13 @@ class RoadmapList(generics.ListAPIView):
     serializer_class = DocumentSerializer
 
     def get_queryset(self):
-        return _published_docs(DocumentSection.ROADMAP)
+        qs = _published_docs(DocumentSection.ROADMAP)
+        # ?country=<slug> — used by the Sustainability Roadmaps page to fetch
+        # only the roadmap documents belonging to a specific country.
+        country_slug = self.request.query_params.get("country")
+        if country_slug:
+            qs = qs.filter(country__slug=country_slug)
+        return qs
 
 
 class DocumentDetail(generics.RetrieveAPIView):
@@ -201,6 +207,7 @@ def _section_label(section):
         DocumentSection.RESOURCE: "Resource",
         DocumentSection.GUIDANCE: "Guidance",
         DocumentSection.GC8: "GC8",
+        DocumentSection.ROADMAP: "Roadmap",
         DocumentSection.COUNTRY: "Country document",
     }.get(section, "Document")
 
