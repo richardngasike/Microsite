@@ -3,7 +3,7 @@
    ========================================================================== */
 
 .wrap { padding-top: 48px; padding-bottom: 64px; }
-.state { color: var(--unaids-grey); font-size: 1.05rem; padding: 40px 0; }
+.state { color: var(--unaids-grey); font-size: 1.05rem; padding: 32px 0; }
 
 /* ── Intro ───────────────────────────────────────────────────────────────── */
 .intro {
@@ -30,7 +30,7 @@
   border-radius: var(--radius-pill);
   padding: 12px 20px;
   color: var(--unaids-grey);
-  max-width: 400px;
+  max-width: 420px;
   flex: 1;
 }
 .searchBox input {
@@ -60,9 +60,8 @@
 .regionGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 18px;
+  gap: 16px;
 }
-
 .regionCard {
   display: flex;
   align-items: center;
@@ -79,15 +78,17 @@
 .regionCard:hover {
   border-color: var(--unaids-red);
   box-shadow: var(--shadow-md);
-  transform: translateY(-3px);
+  transform: translateY(-2px);
 }
-.regionCard:hover .regionCardIcon { background: var(--unaids-red); color: var(--white); }
-
+.regionCard:hover .regionCardIcon {
+  background: var(--unaids-red);
+  color: var(--white);
+}
 .regionCardIcon {
   width: 48px;
   height: 48px;
   border-radius: var(--radius-sm);
-  background: rgba(227,24,55,0.08);
+  background: rgba(227, 24, 55, 0.08);
   color: var(--unaids-red);
   display: grid;
   place-items: center;
@@ -98,31 +99,25 @@
 .regionCardName {
   display: block;
   font-weight: 700;
-  font-size: 1.02rem;
+  font-size: 1rem;
   color: var(--unaids-black);
   line-height: 1.3;
   margin-bottom: 4px;
 }
-.regionCardCount {
-  font-size: 0.84rem;
-  color: var(--unaids-grey);
-  font-weight: 500;
-}
-.regionCard > svg:last-child { color: var(--unaids-grey); flex-shrink: 0; }
-.regionCard:hover > svg:last-child { color: var(--unaids-red); }
+.regionCardCount { font-size: 0.84rem; color: var(--unaids-grey); }
 
-/* ── Region detail panel (View 2) ────────────────────────────────────────── */
-.regionDetail {
-  animation: fadeIn 220ms var(--ease);
+/* ── Region detail (View 2) ──────────────────────────────────────────────── */
+.regionDetail { animation: fadeIn 220ms var(--ease); }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-
 .regionDetailHeader {
   display: flex;
   align-items: center;
   gap: 16px;
   margin-bottom: 28px;
-  padding-bottom: 22px;
+  padding-bottom: 20px;
   border-bottom: 2px solid var(--unaids-red);
 }
 .regionDetailIcon {
@@ -140,16 +135,20 @@
   font-weight: 900;
   color: var(--unaids-black);
 }
-.regionDetailCount { color: var(--unaids-grey); font-size: 0.9rem; font-weight: 500; }
-
-/* ── Country cards grid (View 2 → 3) ────────────────────────────────────── */
-.countryGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 12px;
-  margin-bottom: 32px;
+.regionDetailCount {
+  color: var(--unaids-grey);
+  font-size: 0.88rem;
+  display: block;
+  margin-top: 3px;
 }
 
+/* ── Country cards grid (View 2) ─────────────────────────────────────────── */
+.countryGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 12px;
+  margin-bottom: 28px;
+}
 .countryCard {
   display: flex;
   align-items: center;
@@ -157,7 +156,7 @@
   background: var(--white);
   border: 1.5px solid var(--color-border);
   border-radius: var(--radius-md);
-  padding: 15px 18px;
+  padding: 14px 18px;
   cursor: pointer;
   text-align: left;
   transition: all var(--dur) var(--ease);
@@ -170,9 +169,15 @@
 }
 .countryCardActive {
   border-color: var(--unaids-red);
-  background: rgba(227,24,55,0.04);
+  background: rgba(227, 24, 55, 0.04);
 }
-.countryFlag { width: 30px; height: 21px; object-fit: cover; border-radius: 3px; flex-shrink: 0; }
+.countryFlag {
+  width: 28px;
+  height: 20px;
+  object-fit: cover;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
 .countryName { flex: 1; font-weight: 600; font-size: 1rem; color: var(--unaids-black); }
 .countryChevron { color: var(--unaids-grey); flex-shrink: 0; }
 .countryCardActive .countryChevron { color: var(--unaids-red); }
@@ -181,11 +186,27 @@
 .documentsPanel {
   background: var(--grey-100);
   border-radius: var(--radius-lg);
-  padding: 32px;
-  margin-top: 8px;
-  animation: fadeIn 220ms var(--ease);
+  padding: 30px;
   border: 1px solid var(--color-border);
+  animation: fadeIn 220ms var(--ease);
 }
+.loadingRow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 0;
+}
+.spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2.5px solid var(--grey-200);
+  border-top-color: var(--unaids-red);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
 
 .documentsPanelHeader {
   display: flex;
@@ -195,31 +216,44 @@
   padding-bottom: 18px;
   border-bottom: 1px solid var(--color-border);
 }
-.docPanelFlag { width: 44px; height: 31px; object-fit: cover; border-radius: 4px; flex-shrink: 0; }
-.documentsPanelTitle { font-size: 1.4rem; font-weight: 900; color: var(--unaids-black); }
-
+.docPanelFlag {
+  width: 46px;
+  height: 32px;
+  object-fit: cover;
+  border-radius: 4px;
+  box-shadow: var(--shadow-sm);
+  flex-shrink: 0;
+}
+.documentsPanelTitle {
+  font-size: 1.35rem;
+  font-weight: 900;
+  color: var(--unaids-black);
+}
 .countrySummary {
   max-width: 760px;
-  font-size: 1rem;
+  font-size: 1.02rem;
   line-height: 1.7;
-  color: var(--unaids-grey);
+  color: var(--color-text);
   margin-bottom: 24px;
 }
-.countrySummary p { margin-bottom: 0.8em; }
+.countrySummary p { margin-bottom: 1em; }
 
-.emptyDocs { color: var(--unaids-grey); font-size: 1rem; padding: 20px 0; }
-
+.emptyDocs {
+  color: var(--unaids-grey);
+  font-size: 1rem;
+  padding: 20px 0;
+}
 .docsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 22px;
 }
 
-/* ── Responsive ─────────────────────────────────────────────────────────── */
+/* ── Responsive ──────────────────────────────────────────────────────────── */
 @media (max-width: 640px) {
   .regionGrid { grid-template-columns: 1fr; }
   .countryGrid { grid-template-columns: 1fr; }
   .docsGrid { grid-template-columns: 1fr; }
-  .documentsPanel { padding: 22px 16px; }
-  .wrap { padding-top: 36px; }
+  .documentsPanel { padding: 20px 16px; }
+  .wrap { padding-top: 32px; }
 }

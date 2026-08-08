@@ -31,10 +31,17 @@ class ResourceList(generics.ListAPIView):
     serializer_class = DocumentSerializer
 
     def get_queryset(self):
-        qs = _published_docs(DocumentSection.RESOURCE)
+        # ?featured=true → return featured docs from ANY section.
+        # This powers the homepage "Featured resources" grid — admin marks any
+        # document as Featured regardless of section and it shows on the homepage.
         if self.request.query_params.get("featured") == "true":
-            qs = qs.filter(featured=True)
-        return qs
+            return (
+                Document.objects
+                .filter(published=True, featured=True)
+                .order_by("order", "-published_date")
+            )
+        # No param → Resources page: return RESOURCE section only
+        return _published_docs(DocumentSection.RESOURCE)
 
 
 class GuidanceList(generics.ListAPIView):
@@ -56,8 +63,7 @@ class RoadmapList(generics.ListAPIView):
 
     def get_queryset(self):
         qs = _published_docs(DocumentSection.ROADMAP)
-        # ?country=<slug> — used by the Sustainability Roadmaps page to fetch
-        # only the roadmap documents belonging to a specific country.
+        # ?country=<slug> — used by the Sustainability Roadmaps drill-down page
         country_slug = self.request.query_params.get("country")
         if country_slug:
             qs = qs.filter(country__slug=country_slug)
@@ -187,16 +193,21 @@ def search(request):
             "type": "Country",
             "id": c.id,
             "title": c.name,
+            # Use query param URL so the country profiles page auto-opens
+            # the correct region + country panel — no 404 on static export
             "excerpt": f"Country profile — {c.region.name}",
-            "url": f"/country-profiles/{c.slug}",
+            "url": f"/country-profiles/?country={c.slug}",
         })
 
     for f in Faq.objects.filter(published=True).filter(
         Q(question__icontains=q) | Q(answer__icontains=q)
     )[:4]:
         results.append({
-            "type": "FAQ", "id": f.id, "title": f.question,
-            "excerpt": "", "url": "/faqs",
+            "type": "FAQ",
+            "id": f.id,
+            "title": f.question,
+            "excerpt": "",
+            "url": "/faqs/",
         })
 
     return Response({"results": results})
@@ -214,21 +225,19 @@ def _section_label(section):
 
 def _doc_url(d):
     if d.section == DocumentSection.GUIDANCE:
-        return "/technical-guidance"
+        return "/technical-guidance/"
     if d.section == DocumentSection.GC8:
-        return "/gc8"
+        return "/gc8/"
     if d.section == DocumentSection.ROADMAP:
-        return "/sustainability-roadmaps"
+        return "/sustainability-roadmaps/"
     if d.section == DocumentSection.COUNTRY and d.country_id:
-        return f"/country-profiles/{d.country.slug}"
-    return "/resources"
+        return f"/country-profiles/?country={d.country.slug}"
+    return "/resources/"
 
 
-# --- Auth (simple token) --------------------------------------------------
+# --- Auth -----------------------------------------------------------------
 @api_view(["GET"])
 def me(request):
-    """Return the authenticated user's basic profile. Used by the frontend
-    to re-hydrate auth state on page load (validates stored token)."""
     if not request.user.is_authenticated:
         return Response({"error": "Not authenticated."}, status=401)
     return Response({
@@ -240,9 +249,9 @@ def me(request):
 @api_view(["POST"])
 @permission_classes([AllowAny])
 def register(request):
-    email = request.data.get("email")
+    email    = request.data.get("email")
     password = request.data.get("password")
-    name = request.data.get("name", "")
+    name     = request.data.get("name", "")
     if not email or not password:
         return Response({"error": "Email and password required."}, status=400)
     if User.objects.filter(username=email).exists():
@@ -257,9 +266,9 @@ def register(request):
 @api_view(["POST"])
 @permission_classes([AllowAny])
 def login(request):
-    email = request.data.get("email")
+    email    = request.data.get("email")
     password = request.data.get("password")
-    user = authenticate(username=email, password=password)
+    user     = authenticate(username=email, password=password)
     if not user:
         return Response({"error": "Invalid credentials."}, status=400)
     token, _ = Token.objects.get_or_create(user=user)

@@ -1,23 +1,29 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import { getRegions } from "@/lib/api";
 import styles from "./CountrySelect.module.css";
 
 // Regions and their countries are managed entirely from the Django admin.
 // This dropdown groups countries under their region using <optgroup>.
+// Uses window.location.href instead of router.push because Next.js static
+// export does not pre-build dynamic /country-profiles/[slug] pages — a hard
+// navigation lets the browser load whatever shell is available and the
+// country-profiles page handles the inline drill-down instead.
 export default function CountrySelect() {
-  const router = useRouter();
   const [regions, setRegions] = useState([]);
-  const [value, setValue] = useState("");
+  const [value, setValue]     = useState("");
 
   useEffect(() => {
     getRegions().then((data) => setRegions(Array.isArray(data) ? data : []));
   }, []);
 
   const handleOpen = () => {
-    if (value) router.push(`/country-profiles/${value}`);
+    // Navigate to the country profiles listing page with the country slug as a
+    // query param so the page can auto-open the correct region + country panel.
+    if (value) {
+      window.location.href = `/country-profiles/?country=${value}`;
+    }
   };
 
   const hasData = regions.some((r) => (r.countries || []).length > 0);
@@ -64,8 +70,10 @@ export default function CountrySelect() {
 
 function Chevron() {
   return (
-    <svg className={styles.chevron} width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    <svg className={styles.chevron} width="20" height="20" viewBox="0 0 24 24"
+      fill="none" aria-hidden="true">
+      <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2"
+        strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }

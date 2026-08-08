@@ -1,41 +1,67 @@
 "use client";
 
 import { useEffect, useState, useMemo } from "react";
+import { useSearchParams } from "next/navigation";
 import PageHero from "@/components/PageHero";
 import DocumentCard from "@/components/DocumentCard";
 import { getRegions, getCountry } from "@/lib/api";
 import styles from "./countries.module.css";
 
 export default function CountryProfilesPage() {
+  const searchParams                    = useSearchParams();
   const [regions, setRegions]           = useState(null);
-  const [openRegion, setOpenRegion]     = useState(null); // slug of expanded region
-  const [openCountry, setOpenCountry]   = useState(null); // slug of selected country
-  const [countryData, setCountryData]   = useState({});   // cache: slug → data
+  const [openRegion, setOpenRegion]     = useState(null);
+  const [openCountry, setOpenCountry]   = useState(null);
+  const [countryData, setCountryData]   = useState({});
   const [loadingCountry, setLoadingCountry] = useState(false);
   const [query, setQuery]               = useState("");
 
+  /* ── Load regions then auto-open if ?country= is in the URL ─────────── */
   useEffect(() => {
-    getRegions().then((d) => setRegions(Array.isArray(d) ? d : []));
-  }, []);
+    getRegions().then((d) => {
+      const list = Array.isArray(d) ? d : [];
+      setRegions(list);
 
-  /* ── Open / close a region card ──────────────────────────────────────── */
+      // Auto-open from CountrySelect or search result URL
+      const targetSlug = searchParams?.get("country");
+      if (!targetSlug) return;
+
+      // Find which region this country belongs to
+      for (const region of list) {
+        const found = (region.countries || []).find((c) => c.slug === targetSlug);
+        if (found) {
+          setOpenRegion(region.slug);
+          // Fetch and open the country panel
+          setOpenCountry(targetSlug);
+          setLoadingCountry(true);
+          getCountry(targetSlug).then((data) => {
+            setCountryData((prev) => ({ ...prev, [targetSlug]: data || null }));
+            setLoadingCountry(false);
+          });
+          break;
+        }
+      }
+    });
+  }, [searchParams]);
+
+  /* ── Toggle region ───────────────────────────────────────────────────── */
   const toggleRegion = (slug) => {
     setOpenRegion((prev) => (prev === slug ? null : slug));
-    setOpenCountry(null); // reset country selection when switching region
+    setOpenCountry(null);
   };
 
-  /* ── Select a country → fetch its profile + documents ────────────────── */
+  /* ── Select a country → fetch profile + documents ────────────────────── */
   const selectCountry = async (slug) => {
     if (openCountry === slug) { setOpenCountry(null); return; }
     setOpenCountry(slug);
-    if (countryData[slug]) return; // already cached
+    if (countryData[slug] !== undefined) return; // already cached
     setLoadingCountry(true);
     const data = await getCountry(slug);
     setCountryData((prev) => ({ ...prev, [slug]: data || null }));
     setLoadingCountry(false);
   };
 
-  /* ── Global country search (filters all regions) ─────────────────────── */
+  /* ── Filter regions/countries by search ──────────────────────────────── */
   const filtered = useMemo(() => {
     if (!regions) return [];
     const q = query.trim().toLowerCase();
@@ -58,8 +84,9 @@ export default function CountryProfilesPage() {
   return (
     <>
       <PageHero
-        title="Country Profiles"
-  
+        eyebrow="Country Profiles"
+        title="Sustainability by country"
+        lead="The Country Profiles page hosts country profiles, which form part of an analytical resource package designed to support understanding of a country's HIV response sustainability landscape."
       />
 
       <div className={`container ${styles.wrap}`}>
@@ -103,22 +130,31 @@ export default function CountryProfilesPage() {
               type="search"
               placeholder="Search countries…"
               value={query}
-              onChange={(e) => { setQuery(e.target.value); setOpenRegion(null); setOpenCountry(null); }}
+              onChange={(e) => {
+                setQuery(e.target.value);
+                setOpenRegion(null);
+                setOpenCountry(null);
+              }}
               aria-label="Search countries"
             />
           </div>
           {openRegion && (
-            <button className={styles.backBtn} onClick={() => { setOpenRegion(null); setOpenCountry(null); }}>
+            <button
+              className={styles.backBtn}
+              onClick={() => { setOpenRegion(null); setOpenCountry(null); }}
+            >
               ← All regions
             </button>
           )}
         </div>
 
-        {/* Loading */}
+        {/* States */}
         {regions === null && <p className={styles.state}>Loading regions…</p>}
         {regions !== null && filtered.length === 0 && (
           <p className={styles.state}>
-            {query ? `No countries match "${query}".` : "Regions will appear here once added from the admin."}
+            {query
+              ? `No countries match "${query}".`
+              : "Regions will appear here once added from the admin."}
           </p>
         )}
 
@@ -132,9 +168,7 @@ export default function CountryProfilesPage() {
                 onClick={() => toggleRegion(region.slug)}
                 aria-expanded={openRegion === region.slug}
               >
-                <div className={styles.regionCardIcon}>
-                  <GlobeIcon />
-                </div>
+                <div className={styles.regionCardIcon}><GlobeIcon /></div>
                 <div className={styles.regionCardBody}>
                   <span className={styles.regionCardName}>{region.name}</span>
                   <span className={styles.regionCardCount}>
@@ -148,7 +182,7 @@ export default function CountryProfilesPage() {
           </div>
         )}
 
-        {/* ── View 2: Open region → country list ───────────────────────── */}
+        {/* ── View 2: Region → country list ────────────────────────────── */}
         {openRegion && currentRegion && (
           <div className={styles.regionDetail}>
             <div className={styles.regionDetailHeader}>
@@ -165,7 +199,9 @@ export default function CountryProfilesPage() {
               {(currentRegion.countries || []).map((c) => (
                 <button
                   key={c.slug}
-                  className={`${styles.countryCard} ${openCountry === c.slug ? styles.countryCardActive : ""}`}
+                  className={`${styles.countryCard} ${
+                    openCountry === c.slug ? styles.countryCardActive : ""
+                  }`}
                   onClick={() => selectCountry(c.slug)}
                   aria-expanded={openCountry === c.slug}
                 >
@@ -180,18 +216,25 @@ export default function CountryProfilesPage() {
               ))}
             </div>
 
-            {/* ── View 3: Country documents panel ───────────────────────── */}
+            {/* ── View 3: Country documents panel ──────────────────────── */}
             {openCountry && (
               <div className={styles.documentsPanel}>
                 {loadingCountry && !currentCountry && (
-                  <p className={styles.state}>Loading documents…</p>
+                  <div className={styles.loadingRow}>
+                    <span className={styles.spinner} />
+                    <p className={styles.state}>Loading documents…</p>
+                  </div>
                 )}
 
                 {!loadingCountry && currentCountry && (
                   <>
                     <div className={styles.documentsPanelHeader}>
                       {currentCountry.flag_url && (
-                        <img src={currentCountry.flag_url} alt="" className={styles.docPanelFlag} />
+                        <img
+                          src={currentCountry.flag_url}
+                          alt=""
+                          className={styles.docPanelFlag}
+                        />
                       )}
                       <h3 className={styles.documentsPanelTitle}>
                         {currentCountry.name}
@@ -220,7 +263,9 @@ export default function CountryProfilesPage() {
                 )}
 
                 {!loadingCountry && currentCountry === null && (
-                  <p className={styles.state}>Could not load this country profile.</p>
+                  <p className={styles.state}>
+                    Could not load this country profile.
+                  </p>
                 )}
               </div>
             )}
@@ -252,7 +297,8 @@ function ChevronIcon({ down }) {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"
       style={{ transform: down ? "rotate(90deg)" : "rotate(0deg)", transition: "transform 220ms ease" }}>
-      <path d="M9 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M9 6l6 6-6 6" stroke="currentColor" strokeWidth="2"
+        strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
