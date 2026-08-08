@@ -447,3 +447,30 @@
   .resourceGrid { grid-template-columns: 1fr; }
   .newsGrid { grid-template-columns: 1fr; }
 }
+
+
+/* Wrapper for each featured doc card — adds a section badge above it */
+.featuredCard {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Section badge — tells the user which section this doc belongs to */
+.sectionBadge {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  background: var(--unaids-black);
+  color: var(--white);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+  transition: background var(--dur) var(--ease);
+}
+.sectionBadge:hover {
+  background: var(--unaids-red);
+}

@@ -10,13 +10,30 @@ import { DOMAINS } from "@/lib/site";
 import { getResources, getNews } from "@/lib/api";
 import styles from "./page.module.css";
 
+// Maps a document section value to its page URL
+const SECTION_HREF = {
+  resource:  "/resources/",
+  guidance:  "/technical-guidance/",
+  gc8:       "/gc8/",
+  roadmap:   "/sustainability-roadmaps/",
+  country:   "/country-profiles/",
+};
+
+// Maps a section value to a readable label for the badge on each card
+const SECTION_LABEL = {
+  resource: "Resource",
+  guidance: "Technical Guidance",
+  gc8:      "GC8",
+  roadmap:  "Roadmap",
+  country:  "Country Profile",
+};
+
 export default function HomePage() {
   const [resources, setResources] = useState([]);
   const [news, setNews]           = useState([]);
 
   useEffect(() => {
-    // ?featured=true returns docs marked featured in admin across all sections
-    // DRF pagination means we take the first 3 from results
+    // ?featured=true returns docs marked Featured in admin across ALL sections
     getResources("?featured=true").then((d) =>
       setResources(Array.isArray(d) ? d.slice(0, 3) : [])
     );
@@ -24,6 +41,14 @@ export default function HomePage() {
       setNews(Array.isArray(d) ? d.slice(0, 3) : [])
     );
   }, []);
+
+  // If all featured docs come from one section, point "View all" there.
+  // If they're mixed, point to /resources/ as a neutral landing.
+  const featuredSections = [...new Set(resources.map((r) => r.section).filter(Boolean))];
+  const viewAllHref =
+    featuredSections.length === 1
+      ? (SECTION_HREF[featuredSections[0]] ?? "/resources/")
+      : "/resources/";
 
   return (
     <>
@@ -104,10 +129,10 @@ export default function HomePage() {
         <div className="container">
           <div className={styles.sectionHead}>
             <div>
-              <span className={styles.sectionEyebrow}>Technical guidance</span>
-              <h2 className={styles.sectionTitle}>Tools to build sustainability roadmaps</h2>
+              <span className={styles.sectionEyebrow}>Featured resources</span>
+              <h2 className={styles.sectionTitle}>Key documents & guidance</h2>
             </div>
-            <Link href="/technical-guidance" className={styles.viewAll}>
+            <Link href={viewAllHref} className={styles.viewAll}>
               View all <ArrowIcon />
             </Link>
           </div>
@@ -115,15 +140,15 @@ export default function HomePage() {
           {resources.length > 0 ? (
             <div className={styles.resourceGrid}>
               {resources.map((doc) => (
-                <DocumentCard key={doc.id} doc={doc} />
+                <FeaturedDocCard key={doc.id} doc={doc} />
               ))}
             </div>
           ) : (
             <div className={styles.emptyState}>
               <span className={styles.emptyIcon}>📄</span>
               <p>
-                Mark documents as <strong>Featured</strong> in the admin to
-                show them here.
+                Mark any document as <strong>Featured</strong> in the admin
+                to show it here.
               </p>
             </div>
           )}
@@ -193,6 +218,24 @@ export default function HomePage() {
         </div>
       </section>
     </>
+  );
+}
+
+// ── FeaturedDocCard ──────────────────────────────────────────────────────────
+// Wraps DocumentCard but adds a section badge + correct "View in section" link
+// so each card clearly identifies what type of document it is and where it lives.
+function FeaturedDocCard({ doc }) {
+  const sectionLabel = SECTION_LABEL[doc.section] || "Document";
+  const sectionHref  = SECTION_HREF[doc.section]  || "/resources/";
+
+  return (
+    <div className={styles.featuredCard}>
+      {/* Section badge above the card */}
+      <Link href={sectionHref} className={styles.sectionBadge}>
+        {sectionLabel}
+      </Link>
+      <DocumentCard doc={doc} />
+    </div>
   );
 }
 
